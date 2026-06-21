@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: orders-service
+
+server:
+  port: 8080
+
+api:
+  calculator:
+    uri: http://calculator:8090/calculate
+
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1
+
+  otlp:
+    tracing:
+      endpoint: http://simplest-collector:4318/v1/traces
+
+logging:
+  level:
+    org.springframework.cloud.sleuth: DEBUG
+    io.opentelemetry: DEBUG
+    org.springframework.web: DEBUG
+  pattern:
+    level: "[${spring.application.name},%X{traceId},%X{spanId}] %5p"
