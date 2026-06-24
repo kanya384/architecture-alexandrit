@@ -5,21 +5,25 @@ spring:
 server:
   port: 8090
 
+otel:
+  instrumentation:
+    logback-appender:
+      enabled: false
+
 management:
   tracing:
-    enabled: true
     sampling:
-      probability: 1
-
-  otlp:
+      probability: 1.0
+  opentelemetry:
     tracing:
-      endpoint: http://simplest-collector:4318/v1/traces
+      export:
+        otlp:
+          endpoint: http://simplest-collector:4318/v1/traces
 
 logging:
   level:
-    org.springframework.cloud.sleuth: DEBUG
+    io.micrometer.tracing: DEBUG
     io.opentelemetry: DEBUG
     org.springframework.web: DEBUG
-    org.springframework.web.servlet: DEBUG
   pattern:
     level: "[${spring.application.name},%X{traceId},%X{spanId}] %5p"

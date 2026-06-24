@@ -9,15 +9,20 @@ api:
   calculator:
     uri: http://calculator:8090/calculate
 
+otel:
+  instrumentation:
+    logback-appender:
+      enabled: false
+
 management:
   tracing:
-    enabled: true
     sampling:
-      probability: 1
-
-  otlp:
+      probability: 1.0
+  opentelemetry:
     tracing:
-      endpoint: http://simplest-collector:4318/v1/traces
+      export:
+        otlp:
+          endpoint: http://simplest-collector:4318/v1/traces
 
 logging:
   level:
