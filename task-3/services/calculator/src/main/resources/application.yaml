@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: calculator-service
+
+server:
+  port: 8090
+
+otel:
+  instrumentation:
+    logback-appender:
+      enabled: false
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://simplest-collector:4318/v1/traces
+
+logging:
+  level:
+    io.micrometer.tracing: DEBUG
+    io.opentelemetry: DEBUG
+    org.springframework.web: DEBUG
+  pattern:
+    level: "[${spring.application.name},%X{traceId},%X{spanId}] %5p"
